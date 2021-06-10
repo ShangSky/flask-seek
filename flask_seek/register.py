@@ -30,14 +30,14 @@ def seek(
     *,
     blueprint_modules: Optional[Iterable[str]] = None,
     blueprint_deep_modules: Optional[Iterable[str]] = None,
-    method_modules: Optional[Iterable[str]] = None,
-    method_deep_modules: Optional[Iterable[str]] = None
+    decorator_modules: Optional[Iterable[str]] = None,
+    decorator_deep_modules: Optional[Iterable[str]] = None
 ) -> None:
     if blueprint_modules:
         register_blueprints(instance, blueprint_modules)
     if blueprint_deep_modules:
         register_blueprints(instance, blueprint_deep_modules, deep=True)
-    if method_modules:
-        register_methods(instance, method_modules)
-    if method_deep_modules:
-        register_methods(instance, method_deep_modules, deep=True)
+    if decorator_modules:
+        register_methods(instance, decorator_modules)
+    if decorator_deep_modules:
+        register_methods(instance, decorator_deep_modules, deep=True)

@@ -1,15 +1,22 @@
 from typing import Callable, Any, Optional
-from dataclasses import dataclass
+from functools import update_wrapper
 
 
-@dataclass
 class MethodProxy:
-    f: Callable
-    method_name: str
-    args: Optional[tuple] = None
-    kwargs: Optional[dict] = None
+    def __init__(
+        self,
+        f: Callable,
+        method_name: str,
+        args: Optional[tuple] = None,
+        kwargs: Optional[dict] = None,
+    ) -> None:
+        self.f = f
+        self.method_name = method_name
+        self.args = args
+        self.kwargs = kwargs
+        update_wrapper(self, f)
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
         return self.f(*args, **kwargs)
 
 
