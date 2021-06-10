@@ -1,5 +1,8 @@
 # flask-seek
-Automatically discover and register  Blueprint and decorators (such as before_request), make the code more elegant .
+
+An flask extension to make your code more elegant.
+
+Automatically discover and register  Blueprint and decorators (such as before_request).
 
 ## Requirements
 
