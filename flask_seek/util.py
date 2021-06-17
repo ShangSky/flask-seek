@@ -54,7 +54,7 @@ def get_objs_in_modules(
 ) -> Iterable[T]:
     obj_ids = set()
     for pkg_name in pkg_names:
-        modules = find_modules(pkg_name, deep=deep)
+        modules = list(find_modules(pkg_name, deep=deep))
         for module in modules:
             for obj in get_objs(module, cls):
                 obj_id = id(obj)
