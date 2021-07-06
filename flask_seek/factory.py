@@ -40,7 +40,7 @@ class DecoratorFactory:
 class FunctionFactory:
     def __getattr__(self, item: str) -> Callable:
         def decorator(*args: Any, **kwargs: Any) -> Callable:
-            return wrapper("errorhandler", args, kwargs)
+            return wrapper(item, args, kwargs)
 
         return decorator
 
