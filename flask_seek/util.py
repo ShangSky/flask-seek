@@ -6,17 +6,18 @@ from importlib import import_module
 T = TypeVar("T")
 
 
-def find_modules(pkg_name: str, *, deep: bool = False) -> Iterable[ModuleType]:
+def find_modules(pkg_name: str, *, deep: bool = False, lazy: bool = False) -> Iterable[ModuleType]:
     pkg = import_module(pkg_name)
     module_path = getattr(pkg, "__path__", None)
     if module_path is None:
         return [pkg]
-    iter_modules = pkgutil.walk_packages if deep else pkgutil.iter_modules
-    return (
+    iter_modules_func = pkgutil.walk_packages if deep else pkgutil.iter_modules
+    iter_modules = (
         import_module(module_info[1])
-        for module_info in iter_modules(module_path, pkg.__name__ + ".")
+        for module_info in iter_modules_func(module_path, pkg.__name__ + ".")
         if not module_info[2]
     )
+    return iter_modules if lazy else list(iter_modules)
 
 
 def get_objs(module: ModuleType, cls: Type[T]) -> Iterable[T]:
@@ -54,7 +55,7 @@ def get_objs_in_modules(
 ) -> Iterable[T]:
     obj_ids = set()
     for pkg_name in pkg_names:
-        modules = list(find_modules(pkg_name, deep=deep))
+        modules = find_modules(pkg_name, deep=deep)
         for module in modules:
             for obj in get_objs(module, cls):
                 obj_id = id(obj)

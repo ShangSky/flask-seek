@@ -1,4 +1,4 @@
-from typing import Callable, Any, Optional
+from typing import Callable, Any, Optional, Union, Type, TYPE_CHECKING
 from functools import update_wrapper
 
 
@@ -36,6 +36,17 @@ class DecoratorFactory:
 
         return decorator
 
+    if TYPE_CHECKING:
+        def before_first_request(self, f: Callable) -> Callable: ...
+        def teardown_appcontext(self, f: Callable) -> Callable: ...
+        def shell_context_processor(self, f: Callable) -> Callable: ...
+        def before_request(self, f: Callable) -> Callable: ...
+        def after_request(self, f: Callable) -> Callable: ...
+        def teardown_request(self, f: Callable) -> Callable: ...
+        def context_processor(self, f: Callable) -> Callable: ...
+        def url_value_preprocessor(self, f: Callable) -> Callable: ...
+        def url_defaults(self, f: Callable) -> Callable: ...
+
 
 class FunctionFactory:
     def __getattr__(self, item: str) -> Callable:
@@ -43,6 +54,19 @@ class FunctionFactory:
             return wrapper(item, args, kwargs)
 
         return decorator
+
+    if TYPE_CHECKING:
+        def template_filter(self, name: Optional[str] = None) -> Callable[[
+            Callable], Callable]: ...
+
+        def template_test(self, name: Optional[str] = None) -> Callable[[
+            Callable], Callable]: ...
+
+        def template_global(self, name: Optional[str] = None) -> Callable[[
+            Callable], Callable]: ...
+
+        def errorhandler(self, code_or_exception: Union[Type[Exception], int]) -> Callable[[
+            Callable], Callable]: ...
 
 
 df = DecoratorFactory()
