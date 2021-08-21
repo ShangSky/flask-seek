@@ -1,5 +1,7 @@
 # flask-seek
 
+- [简体中文](README_cn.md)
+
 An flask extension to make your code more elegant.
 
 Automatically discover and register  Blueprint and decorators (such as before_request).

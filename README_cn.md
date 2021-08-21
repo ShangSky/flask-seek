@@ -1,5 +1,7 @@
 # flask-seek
 
+- [English](README.md)
+
 使代码更优雅的flask扩展.
 
 自动发现并注册蓝图和flask装饰器(例如before_request).
