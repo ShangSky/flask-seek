@@ -1,6 +1,6 @@
 # flask-seek
 
-- [简体中文](README_cn.md)
+- [简体中文](README_zh.md)
 
 An flask extension to make your code more elegant.
 
