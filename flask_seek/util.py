@@ -1,12 +1,14 @@
 import pkgutil
-from typing import Iterable, Type, TypeVar, Any
+from typing import Callable, Iterable, Optional, Type, TypeVar, Any
 from types import ModuleType
 from importlib import import_module
 
 T = TypeVar("T")
 
 
-def find_modules(pkg_name: str, *, deep: bool = False, lazy: bool = False) -> Iterable[ModuleType]:
+def find_modules(
+    pkg_name: str, *, deep: bool = False, lazy: bool = False
+) -> Iterable[ModuleType]:
     pkg = import_module(pkg_name)
     module_path = getattr(pkg, "__path__", None)
     if module_path is None:
@@ -20,11 +22,14 @@ def find_modules(pkg_name: str, *, deep: bool = False, lazy: bool = False) -> It
     return iter_modules if lazy else list(iter_modules)
 
 
-def get_objs(module: ModuleType, cls: Type[T]) -> Iterable[T]:
+def get_objs(
+    module: ModuleType, cls: Type[T], func: Optional[Callable[[Any, Any], bool]] = None
+) -> Iterable[T]:
     for attr_name in dir(module):
         if not attr_name.startswith("__"):
             attr = getattr(module, attr_name)
-            if isinstance(attr, cls):
+            call = func or isinstance
+            if call(attr, cls):
                 yield attr
 
 
@@ -51,13 +56,17 @@ def import_string(dotted_path: str) -> Any:
 
 
 def get_objs_in_modules(
-    pkg_names: Iterable[str], cls: Type[T], *, deep: bool = False
+    pkg_names: Iterable[str],
+    cls: Type[T],
+    *,
+    deep: bool = False,
+    func: Optional[Callable[[Any, Any], bool]] = None
 ) -> Iterable[T]:
     obj_ids = set()
     for pkg_name in pkg_names:
         modules = find_modules(pkg_name, deep=deep)
         for module in modules:
-            for obj in get_objs(module, cls):
+            for obj in get_objs(module, cls, func=func):
                 obj_id = id(obj)
                 if obj_id not in obj_ids:
                     obj_ids.add(obj_id)
