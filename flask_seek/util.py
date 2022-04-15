@@ -1,14 +1,12 @@
 import pkgutil
-from typing import Callable, Iterable, Optional, Type, TypeVar, Any
-from types import ModuleType
 from importlib import import_module
+from types import ModuleType
+from typing import Any, Callable, Iterable, Optional, Type, TypeVar
 
 T = TypeVar("T")
 
 
-def find_modules(
-    pkg_name: str, *, deep: bool = False, lazy: bool = False
-) -> Iterable[ModuleType]:
+def find_modules(pkg_name: str, *, deep: bool = False, lazy: bool = False) -> Iterable[ModuleType]:
     pkg = import_module(pkg_name)
     module_path = getattr(pkg, "__path__", None)
     if module_path is None:
@@ -49,9 +47,7 @@ def import_string(dotted_path: str) -> Any:
         return getattr(module, class_name)
     except AttributeError as err:
         raise ImportError(
-            'Module "{}" does not define a "{}" attribute/class'.format(
-                module_path, class_name
-            )
+            'Module "{}" does not define a "{}" attribute/class'.format(module_path, class_name)
         ) from err
 
 

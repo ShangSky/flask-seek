@@ -1,9 +1,9 @@
-from typing import Iterable, Union, Optional
+from typing import Iterable, Optional, Union
 
-from flask import Flask, Blueprint
+from flask import Blueprint, Flask
 
-from flask_seek.util import get_objs_in_modules
 from flask_seek.factory import MethodProxy
+from flask_seek.util import get_objs_in_modules
 
 
 def register_blueprints(

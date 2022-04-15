@@ -1,11 +1,14 @@
 # coding = utf-8
 import re
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 with open("flask_seek/__init__.py", "r") as f:
     version = re.search(
         r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE
-    ).group(1)
+    ).group(  # type:ignore
+        1
+    )
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 

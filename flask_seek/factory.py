@@ -1,5 +1,5 @@
-from typing import Callable, Any, Optional, Union, Type, TYPE_CHECKING
 from functools import update_wrapper
+from typing import TYPE_CHECKING, Any, Callable, Optional, Type, Union
 
 
 class MethodProxy:
@@ -75,19 +75,13 @@ class FunctionFactory:
 
     if TYPE_CHECKING:
 
-        def template_filter(
-            self, name: Optional[str] = None
-        ) -> Callable[[Callable], Callable]:
+        def template_filter(self, name: Optional[str] = None) -> Callable[[Callable], Callable]:
             ...
 
-        def template_test(
-            self, name: Optional[str] = None
-        ) -> Callable[[Callable], Callable]:
+        def template_test(self, name: Optional[str] = None) -> Callable[[Callable], Callable]:
             ...
 
-        def template_global(
-            self, name: Optional[str] = None
-        ) -> Callable[[Callable], Callable]:
+        def template_global(self, name: Optional[str] = None) -> Callable[[Callable], Callable]:
             ...
 
         def errorhandler(
